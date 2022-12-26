@@ -1,0 +1,290 @@
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary text-white row">
+            <div class="col"  align="left">
+                Offer Table
+            </div>
+            <div class="col" align="right">
+                <button type="button" class="btn btn-outline-primary bg-white" data-toggle="modal" data-target="#addModal" >
+                    Add Offer
+                  </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                     <!-- <app-my-table [HeadArray]="headArray" [GridArray]="usersList"
+                     (onEdit)="editUser($event)"  (onDelete)="deleteUser($event)"></app-my-table> -->
+                    <app-table [HeadArray]="headArray" [BodyArray]="offerList"></app-table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="getAllOffers()"> refresh</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateoffer" (click)="updateRequest()">
+        Update Offer
+    </button>
+</div>
+
+
+<!-- Add Offer Modal -->
+<div class="container-fluid">
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title " id="exampleModalLabel" >Add Offer</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="card ">
+                <div class="card-body">
+                <div class="container">
+                    <form #addForm="ngForm" >
+                        <!-- Name -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Name</label>
+                            <input type="text" id="form3Example3" class="form-control"
+                            #name="ngModel" name="name" [(ngModel)]="offerModel.name" placeholder="Enter offer name" required />
+                            <!-- error msg -->
+                            <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required!!</small>
+                        </div>
+                        <div class="row">
+                            <!-- Coupon input -->
+                            <div class="form-outline mb-4 col">
+                                <label class="form-label" for="form3Example3">Coupon Code</label>
+                                <input type="text" id="form3Example3" class="form-control"
+                                #couponCode="ngModel" name="couponCode" [(ngModel)]="offerModel.couponCode" placeholder="Enter coupon code"  />
+                                <!-- error msg -->
+                                <!-- <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required!!</small> -->
+                            </div>
+
+                            <!-- Max No Of Use -->
+                            <div class="form-outline mb-4 col">
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="form3Example3">Maximum use by user</label>
+                                    <input type="number" id="form3Example3" class="form-control"
+                                    #maxNoOfUse="ngModel" name="maxNoOfUse" [(ngModel)]="offerModel.maxNoOfUse" required />
+                                    <!-- error msg -->
+                                    <small class="text-danger" [class.d-none]="maxNoOfUse.valid || maxNoOfUse.untouched">Name is required!!</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Offer Type --> 
+                            <div class="form-group col">  
+                                <label class="form-label" for="offertype">Offer Type:</label>  
+                                <select class="form-control" #offerType="ngModel" [(ngModel)]="offerModel.offerType" name="offerType" >
+                                    <option disabled>Select Type</option>  
+                                    <option *ngFor="let type of offerTypeList">{{type}}</option>  
+                                </select>  
+                                <small class="text-danger" [class.d-none]="offerType.valid || offerType.untouched">Please choose a Offer type</small>       
+                            </div>  
+                            <!-- User Type -->
+                            <div class="form-group col">  
+                                <label class="form-label" for="userType">User Type:</label>  
+                                <select class="form-control" #userType="ngModel" [(ngModel)]="offerModel.userType" name="userType" >
+                                    <option disabled>Select Type</option>  
+                                    <option *ngFor="let type of userTypeList">{{type}}</option>  
+                                </select>  
+                                <small class="text-danger" [class.d-none]="userType.valid || userType.untouched">Please choose a User type</small>       
+                            </div> 
+                        </div>
+
+                        <div class="row">
+                            <!--Discount  -->
+                            <div class="form-outline mb-4 col">
+                                <label class="form-label" for="form3Example3">Discount</label>
+                                <input type="number" id="form3Example3" class="form-control"
+                                #discount="ngModel" name="discount" [(ngModel)]="offerModel.discount" required />
+                                <!-- error msg -->
+                                <small class="text-danger" [class.d-none]="discount.valid || discount.untouched">Name is required!!</small>
+                            </div>
+
+                            <!--Max Discount  -->
+                            <div class="form-outline mb-4 col">
+                                <label class="form-label" for="form3Example3">Maximum Discount</label>
+                                <input type="number" id="form3Example3" class="form-control"
+                                #maxDiscount="ngModel" name="maxDiscount" [(ngModel)]="offerModel.maxDiscount"  required />
+                                <!-- error msg -->
+                                <small class="text-danger" [class.d-none]="maxDiscount.valid || maxDiscount.untouched">Name is required!!</small>
+                            </div>
+                        </div>
+
+                        <!-- Description input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Description</label>
+                            <input type="text" id="form3Example3" class="form-control"
+                            #description="ngModel" name="description" [(ngModel)]="offerModel.description" placeholder="Enter Description "  />
+                        </div>
+            
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4 border border-dark" data-dismiss="modal" data-target="basic-success-example" 
+                    (click)="onSubmit(addForm.value)">Submit
+                    </button>
+                    
+                    
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+            <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button"  class="btn btn-primary" data-dismiss="modal" data-target="basic-success-example" (click)="onSubmit(addForm); clearField()">Submit</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- Update Offer Modal -->
+
+<div class="container-fluid">
+    <div class="modal fade" id="updateoffer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+            <h5 class="modal-title" id="exampleModalLabel1">Update Employee</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body ">
+                <div class="card ">
+                <div class="card-body">
+                    <div class="container">
+                    <form #updateForm="ngForm">
+                        <!-- id & status -->
+                        <div class="row">
+                        <!-- id -->
+                            <div class="form-group col" align="left">
+                                <label>Id: {{offerModel.id}}</label>
+                                <input type="text" disabled hidden class="form-control" #name="ngModel" name="id" [(ngModel)]="offerModel.id" />
+                            </div>
+                            <!-- status -->
+                            <div class="form-group col" align="right">
+                                <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1"  name="isActive" [(ngModel)]="offerModel.isActive">
+                                <label class="custom-control-label" for="customSwitch1">Employee Status</label>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group col-sm-9" align="left">
+                                <input disabled type="text" name="id" [(ngModel)]="empModel.id"><br>
+                            </div> -->
+                        </div>
+                        <!-- Name -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Name</label>
+                            <input type="text" id="form3Example3" class="form-control"
+                            #name="ngModel" name="name" [(ngModel)]="offerModel.name" placeholder="Enter offer name" required />
+                            <!-- error msg -->
+                            <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required!!</small>
+                        </div>
+                        <div class="row">
+                            <!-- Coupon input -->
+                            <div class="form-outline mb-4 col">
+                                <label class="form-label" for="form3Example3">Coupon Code</label>
+                                <input type="text" id="form3Example3" class="form-control"
+                                #couponCode="ngModel" name="couponCode" [(ngModel)]="offerModel.couponCode" placeholder="Enter coupon code"  />
+                                <!-- error msg -->
+                                <!-- <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required!!</small> -->
+                            </div>
+
+                            <!-- Max No Of Use -->
+                            <div class="form-outline mb-4 col">
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="form3Example3">Maximum use by user</label>
+                                    <input type="number" id="form3Example3" class="form-control"
+                                    #maxNoOfUse="ngModel" name="maxNoOfUse" [(ngModel)]="offerModel.maxNoOfUse" required />
+                                    <!-- error msg -->
+                                    <small class="text-danger" [class.d-none]="maxNoOfUse.valid || maxNoOfUse.untouched">Name is required!!</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Offer Type --> 
+                            <div class="form-group col">  
+                                <label class="form-label" for="offertype">Offer Type:</label>  
+                                <select class="form-control" #offerType="ngModel" [(ngModel)]="offerModel.offerType" name="offerType" >
+                                    <option disabled>Select Type</option>  
+                                    <option *ngFor="let type of offerTypeList">{{type}}</option>  
+                                </select>  
+                                <small class="text-danger" [class.d-none]="offerType.valid || offerType.untouched">Please choose a Offer type</small>       
+                            </div>  
+                            <!-- User Type -->
+                            <div class="form-group col">  
+                                <label class="form-label" for="userType">User Type:</label>  
+                                <select class="form-control" #userType="ngModel" [(ngModel)]="offerModel.userType" name="userType" >
+                                    <option disabled>Select Type</option>  
+                                    <option *ngFor="let type of userTypeList">{{type}}</option>  
+                                </select>  
+                                <small class="text-danger" [class.d-none]="userType.valid || userType.untouched">Please choose a User type</small>       
+                            </div> 
+                        </div>
+
+                        <div class="row">
+                            <!--Discount  -->
+                            <div class="form-outline mb-4 col">
+                                <label class="form-label" for="form3Example3">Discount</label>
+                                <input type="number" id="form3Example3" class="form-control"
+                                #discount="ngModel" name="discount" [(ngModel)]="offerModel.discount" required />
+                                <!-- error msg -->
+                                <small class="text-danger" [class.d-none]="discount.valid || discount.untouched">Name is required!!</small>
+                            </div>
+
+                            <!--Max Discount  -->
+                            <div class="form-outline mb-4 col">
+                                <label class="form-label" for="form3Example3">Maximum Discount</label>
+                                <input type="number" id="form3Example3" class="form-control"
+                                #maxDiscount="ngModel" name="maxDiscount" [(ngModel)]="offerModel.maxDiscount"  required />
+                                <!-- error msg -->
+                                <small class="text-danger" [class.d-none]="maxDiscount.valid || maxDiscount.untouched">Name is required!!</small>
+                            </div>
+                        </div>
+
+                        <!-- Description input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Description</label>
+                            <input type="text" id="form3Example3" class="form-control"
+                            #description="ngModel" name="description" [(ngModel)]="offerModel.description" placeholder="Enter Description "  />
+                        </div>
+
+                        <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4" data-dismiss="modal" data-target="basic-success-example" 
+                     (click)="updateOffer(updateForm.value)">Submit
+                    </button>
+                    
+                    <!-- Register buttons -->
+                    <div class="text-center">
+                        <p>or sign up with:</p>
+                        <button type="button" class="btn btn-secondary btn-floating mx-1">
+                        <i class="fab fa-facebook-f"></i>
+                        </button>
+                    
+                        <button type="button" class="btn btn-secondary btn-floating mx-1">
+                        <i class="fab fa-google"></i>
+                        </button>
+                    
+                        <button type="button" class="btn btn-secondary btn-floating mx-1">
+                        <i class="fab fa-twitter"></i>
+                        </button>
+                    
+                        <button type="button" class="btn btn-secondary btn-floating mx-1">
+                        <i class="fab fa-github"></i>
+                        </button>
+                    </div>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="update(updateForm)">Submit</button>
+            </div> -->
+        </div>
+    </div>
+</div>

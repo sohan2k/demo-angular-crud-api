@@ -1,0 +1,86 @@
+[
+    {
+      "id": 1,
+      "name": "summer",
+      "description": null,
+      "discount": null,
+      "offerType": null,
+      "couponCode": null,
+      "userType": null,
+      "maxNoOfUse": null,
+      "maxDiscount": null,
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "diwali",
+      "description": "efaefaefae",
+      "discount": 20,
+      "offerType": null,
+      "couponCode": null,
+      "userType": null,
+      "maxNoOfUse": null,
+      "maxDiscount": null,
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "name": "dussera",
+      "description": null,
+      "discount": null,
+      "offerType": null,
+      "couponCode": null,
+      "userType": null,
+      "maxNoOfUse": null,
+      "maxDiscount": null,
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "name": "15th august",
+      "description": null,
+      "discount": null,
+      "offerType": null,
+      "couponCode": null,
+      "userType": null,
+      "maxNoOfUse": null,
+      "maxDiscount": null,
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "name": "Monsoon Offer",
+      "description": "Get extra discount",
+      "discount": null,
+      "offerType": null,
+      "couponCode": null,
+      "userType": null,
+      "maxNoOfUse": null,
+      "maxDiscount": null,
+      "isActive": true
+    },
+    {
+      "id": 7,
+      "name": "Offer",
+      "description": null,
+      "discount": null,
+      "offerType": null,
+      "couponCode": null,
+      "userType": null,
+      "maxNoOfUse": null,
+      "maxDiscount": null,
+      "isActive": true
+    },
+    {
+      "id": 8,
+      "name": "Summer sale",
+      "description": "discount ",
+      "discount": null,
+      "offerType": null,
+      "couponCode": null,
+      "userType": null,
+      "maxNoOfUse": null,
+      "maxDiscount": null,
+      "isActive": true
+    }
+  ]
