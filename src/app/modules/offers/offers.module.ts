@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OffersComponent } from './offers.component';
 import { TableComponent } from 'src/app/common/table/table.component';
 import { FormsModule } from '@angular/forms';
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    DataTablesModule
   ],
   exports:[
     OffersComponent

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { data } from 'jquery';
+import { Subject } from 'rxjs';
 import { IOffer } from 'src/app/model/offers';
 import { OffersService } from 'src/app/services/offers.service';
 
@@ -11,6 +12,7 @@ import { OffersService } from 'src/app/services/offers.service';
   styleUrls: ['./offers.component.css']
 })
 export class OffersComponent {
+  // Array Column
   headArray:any[]=[
   {'head':'Id','field':'id'}, {'head':'Name','field':'name'},
   {'head':'Description','field':'description'}, {'head':'Discount','field':'discount'},
@@ -19,21 +21,28 @@ export class OffersComponent {
   {'head':'Maximum Discount','field':'maxDiscount'},{'head':'Status','field':'isActive'},{'head':'Action','field':''}];
 
   isAction=false;
-  updateModalId='updateOfferModal';
+// modal id
   modalID={
     update:'offerUpdate',
     delete:'offerDelete'
   }
 
   mySubscription: any;
-
+  // empty lsi to store api response
   offerList :any[]=[];
+  empList :any[]=[];
   errorMsg='';
   msg:any;
+
+  // used in form dropdown
   offerTypeList=['FLAT','PERCENTAGE'];
   userTypeList=['NEW', 'OLD'];
+
   //  initialize offerModel as a IOffer type empty object
   offerModel:IOffer= {} as IOffer; 
+
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
 
   
   constructor(private offerService:OffersService, private router: Router, private http:HttpClient){
@@ -49,15 +58,27 @@ export class OffersComponent {
   }
   ngOnInit(){
     // this.getAllOffers();
-    
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 2,
+      serverSide: true,
+      processing: true,
+    }
+
+    // this.offerService.getList().subscribe(data =>{
+    //   this.empList=data;
+    //   this.dtTrigger.next(null);
+    // });
   }
 
 
   getAllOffers(){
-    // console.log( this.offerService.getAlloffers().subscribe(data => this.userList= data.payload));
-    console.log(this.offerModel);
-    this.getById();
-    return this.offerService.getAlloffers().subscribe(data => this.offerList= data.payload);
+    console.log( this.offerService.getAlloffers().subscribe(data => console.log( data.payload)));
+
+    return this.offerService.getAlloffers().subscribe(data =>{ 
+      this.offerList= data.payload;
+      this.dtTrigger.next(this.offerList);
+    });
   }
 
 
@@ -93,5 +114,11 @@ export class OffersComponent {
     this.offerService.deleteById(this.offerModel.id).subscribe(data => console.log(data));
   }
 
+// it reset the data table every time we leave the page attached to the component.
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
+  
 
 }

@@ -33,8 +33,8 @@ export class OffersService {
   }
 
   getAlloffers():Observable<any>{
-    console.log(this.http.get<any>(this._url,{headers:this.headers}));
-    return this.http.get<any>(this._url,{headers:this.headers})
+    // console.log(this.http.get<any>(this._url,{headers:this.headers}));
+    return this.http.get<any>(this._url+'?isActive=false',{headers:this.headers})
                     .pipe(retry(1),catchError(this.handleError));
   }
 
@@ -57,4 +57,9 @@ export class OffersService {
     return this.http.delete(this._url+'/'+id)
                     .pipe(catchError(this.handleError));
   }
+
+  private testurl:string="assets/data/dataList.json"
+   getList():Observable<any>{
+    return this.http.get<any>(this.testurl);
+   }
 }

@@ -18,7 +18,8 @@
                      (onEdit)="editUser($event)"  (onDelete)="deleteUser($event)"></app-my-table> -->
                     <app-table [HeadArray]="headArray" [BodyArray]="offerList"
                     (onUpdate)="updateRequest($event)" (onDelete)="deleteRequest($event)" 
-                    [updateModal]="modalID.update" [deleteModal]="modalID.delete"></app-table>
+                    [updateModal]="modalID.update" [deleteModal]="modalID.delete"
+                    [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"></app-table>
                     </div>
                     
                 </div>
@@ -314,3 +315,41 @@
     </div>
   </div>
 </div>
+
+
+<!-- test test -->
+<!-- <div class="card-body">
+    <div class="table-responsive">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped">
+        <thead class="tcolor">
+            <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>description</th>
+                <th>Coupon</th>
+                <th>Discount</th>
+                <th>Status</th>
+                <th>offer type</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="empList?.length != 0">
+            <tr *ngFor="let e of empList ; index as i">
+                <td>{{e.id}}</td>
+                <td> {{e.name}} </td>
+                <td> {{e.description}}</td>
+                <td> {{e.couponCode}}</td>
+                
+                    <td> {{e.discount}}</td>
+                <td *ngIf="e.isActive" class="status">
+                    <span class="active ::after">Active</span>
+                </td>
+                <td *ngIf="!e.isActive" else elseBlock class="status">
+                    <span class="inactive ::after">In active</span>
+                </td>
+                <td> {{e.offerType}}</td>
+            </tr>
+        </tbody>  
+        
+        </table>
+    </div>
+</div> -->

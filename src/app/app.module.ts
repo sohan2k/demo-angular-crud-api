@@ -8,6 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { OffersModule } from './modules/offers/offers.module';
 import { OffersService } from './services/offers.service';
 import { FormsModule } from '@angular/forms';
+import {DataTablesModule} from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     OffersModule,
-    FormsModule
+    FormsModule,
+    DataTablesModule
   ],
   // exports:[
     // TableComponent
