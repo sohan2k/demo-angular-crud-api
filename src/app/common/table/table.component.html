@@ -4,22 +4,30 @@
              <thead>
                  <tr>
                     <th>SL-No.</th>
-                    <th *ngFor="let head of HeadArray">{{head}} </th>  
+                    <th *ngFor="let head of HeadArray">{{head.head}} </th>  
+                    <!-- <th *ngIf="isAction"> Action</th> -->
                  </tr>
              </thead>
              <tbody>
                  <tr *ngFor="let item of BodyArray;let sr=index">
                      <td>{{sr+1}}</td>
                     <td  *ngFor="let head of HeadArray">
-                        {{item[head]}}
+                        {{item[head.field]}}
                         <!-- <div *ngIf="head.FieldName != ''">
                             {{item[head.FieldName]}}
                         </div>  -->
-                        <!-- <div *ngIf="head.FieldName == ''" class="text-center">
+                        <div *ngIf="head.field==''" class="text-center">
+                            <button class="btn btn-sm btn-primary" data-toggle="modal" [attr.data-target]="'#'+updateModal" (click)="update(item)">Edit</button>
+                            <button class="btn btn-sm btn-primary" data-toggle="modal" [attr.data-target]="'#'+deleteModal" (click)="delete(item)">Delete</button>
+                        </div> 
+                        
+                    </td>
+                    <!-- <td>
+                        <div *ngIf="isAction" class="text-center">
                             <button class="btn btn-sm btn-primary" (click)="edit(item)">Edit</button>
                             <button class="btn btn-sm btn-primary" (click)="delete(item)" style="margin-left: 10px;">Delete</button>
-                        </div>  -->
-                    </td>
+                        </div> 
+                    </td> -->
                  </tr> 
              </tbody>
          </table>

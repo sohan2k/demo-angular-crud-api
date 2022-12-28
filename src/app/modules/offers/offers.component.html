@@ -13,17 +13,22 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                     <!-- <app-my-table [HeadArray]="headArray" [GridArray]="usersList"
+                    <div class="table-responsive">
+                         <!-- <app-my-table [HeadArray]="headArray" [GridArray]="usersList"
                      (onEdit)="editUser($event)"  (onDelete)="deleteUser($event)"></app-my-table> -->
-                    <app-table [HeadArray]="headArray" [BodyArray]="offerList"></app-table>
+                    <app-table [HeadArray]="headArray" [BodyArray]="offerList"
+                    (onUpdate)="updateRequest($event)" (onDelete)="deleteRequest($event)" 
+                    [updateModal]="modalID.update" [deleteModal]="modalID.delete"></app-table>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
     <button type="button" class="btn btn-primary" (click)="getAllOffers()"> refresh</button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateoffer" (click)="updateRequest()">
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateoffer" (click)="updateRequest()">
         Update Offer
-    </button>
+    </button> -->
 </div>
 
 
@@ -142,7 +147,7 @@
 <!-- Update Offer Modal -->
 
 <div class="container-fluid">
-    <div class="modal fade" id="updateoffer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal fade" [id]="modalID.update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info text-white">
@@ -287,4 +292,25 @@
             </div> -->
         </div>
     </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" [id]="modalID.delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Offer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you really want to delete these records? 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteOffer()">Yes</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -52,4 +52,9 @@ export class OffersService {
     return this.http.put(this._url+'/'+id,data)
                     .pipe(catchError(this.handleError));
   }
+
+  deleteById(id:any){
+    return this.http.delete(this._url+'/'+id)
+                    .pipe(catchError(this.handleError));
+  }
 }

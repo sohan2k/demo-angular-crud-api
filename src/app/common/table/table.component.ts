@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-table',
@@ -6,7 +6,18 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
-  @Input() HeadArray :string[] = [];
+  @Input() HeadArray :any[] = [];
   @Input() BodyArray :any[] = [];
+  @Input() updateModal:any;
+  @Input() deleteModal:any;
+  @Output() onUpdate =new EventEmitter<any>();
+  @Output() onDelete =new EventEmitter<any>();
+  update(item:any){
+    this.onUpdate.emit(item);
+  }
+
+  delete(item:any){
+    this.onDelete.emit(item);
+  }
 
 }

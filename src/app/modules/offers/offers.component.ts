@@ -11,8 +11,19 @@ import { OffersService } from 'src/app/services/offers.service';
   styleUrls: ['./offers.component.css']
 })
 export class OffersComponent {
-  headArray:any[]=['id','name','description','discount','offerType',
-  'couponCode','userType','maxNoOfUse','maxDiscount','isActive'];
+  headArray:any[]=[
+  {'head':'Id','field':'id'}, {'head':'Name','field':'name'},
+  {'head':'Description','field':'description'}, {'head':'Discount','field':'discount'},
+  {'head':'Offer Type','field':'offerType'}, {'head':'Coupon Code','field':'couponCode'},
+  {'head':'User Type','field':'userType'},  {'head':'Maximum No Of Use','field':'maxNoOfUse'},
+  {'head':'Maximum Discount','field':'maxDiscount'},{'head':'Status','field':'isActive'},{'head':'Action','field':''}];
+
+  isAction=false;
+  updateModalId='updateOfferModal';
+  modalID={
+    update:'offerUpdate',
+    delete:'offerDelete'
+  }
 
   mySubscription: any;
 
@@ -64,11 +75,22 @@ export class OffersComponent {
     return this.offerService.getById(3).subscribe(data => this.msg= data.payload);
   }
 
-  updateRequest(){
-    this.offerModel=this.msg;
+  updateRequest(item:any){
+    console.log(item.id);
+    this.offerModel=item;
+    console.log(this.offerModel);
+    console.log(item);
   }
   updateOffer(form:any){
-    this.offerService.updateById(3,form).subscribe(data => console.log(data));
+    this.offerService.updateById(this.offerModel.id,form).subscribe(data => console.log(data));
+  }
+
+  deleteRequest(item:any){
+    this.offerModel=item;
+  }
+
+  deleteOffer(){
+    this.offerService.deleteById(this.offerModel.id).subscribe(data => console.log(data));
   }
 
 
