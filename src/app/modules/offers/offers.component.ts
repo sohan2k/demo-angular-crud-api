@@ -30,9 +30,9 @@ export class OffersComponent {
   mySubscription: any;
   // empty lsi to store api response
   offerList :any[]=[];
-  empList :any[]=[];
-  errorMsg='';
-  msg:any;
+  
+  // errorMsg='';
+  // msg:any;
 
   // used in form dropdown
   offerTypeList=['FLAT','PERCENTAGE'];
@@ -57,7 +57,6 @@ export class OffersComponent {
     //   });
   }
   ngOnInit(){
-    // this.getAllOffers();
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 2,
@@ -65,10 +64,6 @@ export class OffersComponent {
       processing: true,
     }
 
-    // this.offerService.getList().subscribe(data =>{
-    //   this.empList=data;
-    //   this.dtTrigger.next(null);
-    // });
   }
 
 
@@ -82,19 +77,13 @@ export class OffersComponent {
   }
 
 
-  // ngOnDestroy() {
-  //   if (this.mySubscription) {
-  //   this.mySubscription.unsubscribe();
-  //   }
-  // } 
-
   onSubmit(form:any){
     this.offerService.addOffer(form).subscribe(data => console.log(data));
   }
 
-  getById(){
-    return this.offerService.getById(3).subscribe(data => this.msg= data.payload);
-  }
+  // getById(){
+  //   return this.offerService.getById(3).subscribe(data => this.msg= data.payload);
+  // }
 
   updateRequest(item:any){
     console.log(item.id);
