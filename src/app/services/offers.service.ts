@@ -33,8 +33,8 @@ export class OffersService {
   }
 
   getAlloffers():Observable<any>{
-    // console.log(this.http.get<any>(this._url,{headers:this.headers}));
-    return this.http.get<any>(this._url+'?isActive=false',{headers:this.headers})
+    // console.log(this.http.get<any>(this._url,{headers:this.headers}));//+'?isActive=false'
+    return this.http.get<any>(this._url,{headers:this.headers})
                     .pipe(retry(1),catchError(this.handleError));
   }
 

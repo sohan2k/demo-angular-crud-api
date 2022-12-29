@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { DataTableDirective } from 'angular-datatables';
 import { data } from 'jquery';
 import { Subject } from 'rxjs';
+import { ApiResponse } from 'src/app/model/api-response';
 import { IOffer } from 'src/app/model/offers';
 import { OffersService } from 'src/app/services/offers.service';
 
@@ -11,7 +13,7 @@ import { OffersService } from 'src/app/services/offers.service';
   templateUrl: './offers.component.html',
   styleUrls: ['./offers.component.css']
 })
-export class OffersComponent {
+export class OffersComponent implements OnInit, OnDestroy {
   // Array Column
   headArray:any[]=[
   {'head':'Id','field':'id'}, {'head':'Name','field':'name'},
@@ -29,7 +31,7 @@ export class OffersComponent {
 
   mySubscription: any;
   // empty lsi to store api response
-  offerList :any[]=[];
+  offerList :IOffer[]=[];
   
   // errorMsg='';
   // msg:any;
@@ -43,9 +45,13 @@ export class OffersComponent {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
-
   
-  constructor(private offerService:OffersService, private router: Router, private http:HttpClient){
+  @ViewChild(DataTableDirective ,{static : false}) 
+  dtElement: DataTableDirective=DataTableDirective ;//= new DataTableDirective({},{},{});
+  
+
+  constructor(private offerService:OffersService, private router: Router,
+     private http:HttpClient , private chRef : ChangeDetectorRef){
     // this.router.routeReuseStrategy.shouldReuseRoute = function () {
     //   return false;
     //   };
@@ -56,30 +62,35 @@ export class OffersComponent {
     //   }
     //   });
   }
+  
   ngOnInit(){
+    console.log("oninit call");
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 2,
+      pageLength: 5,
+      lengthMenu:[5,10,15,20],
       serverSide: true,
       processing: true,
-    }
-
+    },
+    this.getAllOffers();
   }
 
 
   getAllOffers(){
-    console.log( this.offerService.getAlloffers().subscribe(data => console.log( data.payload)));
-
-    return this.offerService.getAlloffers().subscribe(data =>{ 
+    // console.log( this.offerService.getAlloffers().subscribe(data => console.log( data.payload)));
+    this.offerService.getAlloffers().subscribe(data =>{ 
       this.offerList= data.payload;
+      this.chRef.detectChanges();
       this.dtTrigger.next(this.offerList);
     });
   }
 
+  currentData:any;
 
   onSubmit(form:any){
     this.offerService.addOffer(form).subscribe(data => console.log(data));
-  }
+    this.rerender();
+ }
 
   // getById(){
   //   return this.offerService.getById(3).subscribe(data => this.msg= data.payload);
@@ -93,6 +104,7 @@ export class OffersComponent {
   }
   updateOffer(form:any){
     this.offerService.updateById(this.offerModel.id,form).subscribe(data => console.log(data));
+    this.rerender();
   }
 
   deleteRequest(item:any){
@@ -100,12 +112,30 @@ export class OffersComponent {
   }
 
   deleteOffer(){
-    this.offerService.deleteById(this.offerModel.id).subscribe(data => console.log(data));
+    this.offerService.deleteById(this.offerModel.id).subscribe(data => {
+      console.log(data);
+    });
+
+    // this.rerender();
   }
+
+  //this is for destroy the datatable and re initialize
+  rerender() 
+  {
+    console.log("render called")
+      this.dtElement.dtInstance.then((dtInstance:DataTables.Api)=>
+      {
+        dtInstance.destroy();
+        console.log("table instance destroyed")
+        this.dtTrigger.next(this.offerList);
+      })
+  }
+  
 
 // it reset the data table every time we leave the page attached to the component.
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
+
   }
 
   

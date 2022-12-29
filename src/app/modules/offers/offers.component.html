@@ -13,11 +13,11 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="table-responsive"> -->
+                    <div class="table-responsive">
                     <app-table [HeadArray]="headArray" [BodyArray]="offerList"
                     (onUpdate)="updateRequest($event)" (onDelete)="deleteRequest($event)" 
                     [updateModal]="modalID.update" [deleteModal]="modalID.delete"
-                    [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"></app-table>
+                    [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" ></app-table>
                     </div>
                     
                 </div>
